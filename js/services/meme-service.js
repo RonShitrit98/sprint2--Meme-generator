@@ -31,7 +31,7 @@ function getImgsStarter() {
     for (var i = 1; i <= 18; i++) {
         imgs.push({
             id: i,
-            url: `meme-imgs/${i}.jpg`,
+            url: `/meme-imgs/${i}.jpg`,
         })
     }
     return imgs
