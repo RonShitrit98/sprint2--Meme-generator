@@ -1,0 +1,7 @@
+.main-editor{
+    background-color: beige;
+    display: none;
+}
+.editor{
+    border: solid 1px black;
+}
