@@ -14,13 +14,23 @@
 
     <div class="main-gallery main-layout">
         <div class="gallery-container">
-            <div class="meme-image"></div>
         </div>
+    </div>
+
+    <div class="main-editor main-layout">
+        <canvas class="editor"></canvas>
+        <button class="focus-btn" onclick="onSwitchFocus()">Switch Focus</button>
+        <button class="txt-size-btn" onclick="onChangeSize(1)">+</button>
+        <button class="txt-size-btn" onclick="onChangeSize(-1)">-</button>
+        <input class="txt-input" type="text" name="meme-txt" placeholder="Your Text Here" onchange="onAddTxt(this)">
+        <!-- <button class="add-btn" >Add</button> -->
+        <input class="color-input" type="color" name="txt-clr" onchange="onClrChange(this)">
     </div>
 
     <div class="main-footer"></div>
 </body>
-<script src="js/image-service.js"></script>
-<script src="js/controllers.js"></script>
+<script src="js/services/meme-service.js"></script>
+<script src="js/editor-controllers.js"></script>
+<script src="js/gallery-controllers.js"></script>
 
 </html>
