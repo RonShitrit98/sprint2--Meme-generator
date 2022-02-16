@@ -1,0 +1,5 @@
+@import 'base/basic.css';
+@import 'base/helpers.css';
+
+@import 'components/gallery.css';
+@import 'components/main-header.css';

@@ -1,0 +1,24 @@
+.gallery-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 2fr)) ;
+    gap: 1em;
+    justify-items: center;
+}
+
+.meme-image img{
+    max-width: 100%;
+    justify-self: center;
+}
+
+
+/* .grid{
+    display: grid;
+    justify-content: center;
+    gap: 1.3125rem;
+   }
+   img{
+     align-self: center;
+     height: 100%;
+     width: 100%;
+     object-fit: cover;
+   } */

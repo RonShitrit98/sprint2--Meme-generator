@@ -1,0 +1,7 @@
+.main-header{
+    height: 15vh;
+    background-color: bisque;
+}
+.main-header .logo{
+    font-size: 2rem;
+}
