@@ -9,7 +9,7 @@
 
 <body onload="onInit()">
     <div class="main-header">
-        <div class="logo  main-layout">Meme Generator</div>
+        <div class="logo  main-layout" onclick="onLogoClick()">Meme Generator</div>
     </div>
 
     <div class="main-gallery main-layout">
@@ -19,12 +19,14 @@
 
     <div class="main-editor main-layout">
         <canvas class="editor"></canvas>
-        <button class="focus-btn" onclick="onSwitchFocus()">Switch Focus</button>
-        <button class="txt-size-btn" onclick="onChangeSize(1)">+</button>
-        <button class="txt-size-btn" onclick="onChangeSize(-1)">-</button>
-        <input class="txt-input" type="text" name="meme-txt" placeholder="Your Text Here" onchange="onAddTxt(this)">
-        <!-- <button class="add-btn" >Add</button> -->
-        <input class="color-input" type="color" name="txt-clr" onchange="onClrChange(this)">
+        <div class="edit-container">
+            <input class="txt-input" type="text" name="meme-txt" placeholder="Your Text Here" onchange="onAddTxt(this)">
+            <input class="color-input" type="color" name="txt-clr" onchange="onClrChange(this)">
+            <button class="txt-size-btn" onclick="onChangeSize(1)">+</button>
+            <button class="txt-size-btn" onclick="onChangeSize(-1)">-</button>
+            <button class="focus-btn" onclick="onSwitchFocus()">Switch Focus</button>
+            <!-- <button class="add-btn" >Add</button> -->
+        </div>
     </div>
 
     <div class="main-footer"></div>

@@ -5,3 +5,23 @@
 .editor{
     border: solid 1px black;
 }
+.main-editor .edit-container{
+    display: grid;
+    grid-template: 1fr 1fr 1fr /50px 50px 50px ;
+    gap:2em ;
+    align-self: center;
+    margin: auto;
+    /* height: 300px;
+    width: 300px;
+    align-content: center; */
+}
+
+.txt-input{
+    grid-row: 1;
+    grid-column: span 3;
+}
+
+.focus-btn{
+    grid-column: span 3;
+}
+

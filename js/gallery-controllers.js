@@ -16,7 +16,7 @@ function renderImgs(){
 
 function onImgSelect(elImg){
     const elEditor = document.querySelector('.main-editor')
-    elEditor.style.display = 'block'
+    elEditor.style.display = 'flex'
     const elGallery = document.querySelector('.main-gallery')
     elGallery.style.display = 'none'
     gElImg = elImg
@@ -25,4 +25,14 @@ function onImgSelect(elImg){
 
 function getElImg(){
     return gElImg
+}
+
+function onLogoClick(){
+    setGallery()
+}
+function setGallery(){
+    const elEditor = document.querySelector('.main-editor')
+    elEditor.style.display = 'none'
+    const elGallery = document.querySelector('.main-gallery')
+    elGallery.style.display = 'block'
 }
