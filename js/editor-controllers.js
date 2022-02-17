@@ -92,6 +92,8 @@ function onUp() {
 
 function onMove(ev) {
     const pos = getEvPos(ev)
+    ev.preventDefault();
+    ev.stopPropagation();
     var obj = getGrabbedObj()
     if (obj) {
         obj.x = pos.x - obj.width / 2
