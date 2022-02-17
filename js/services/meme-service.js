@@ -17,6 +17,7 @@ var gMemeObjs = [{
 }]
 var gGrabbedObj
 var gGrubbeObj = gMemeObjs[0]
+const gTouchEvs = ['touchstart', 'touchmove', 'touchend']
 
 var gStyle = {
     font: 'impact',
