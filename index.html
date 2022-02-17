@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <script src="https://kit.fontawesome.com/bd3dba47f4.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/styles.css">
     <title>Meme Generator</title>
 </head>
@@ -13,6 +14,7 @@
     </div>
 
     <div class="main-gallery main-layout">
+        <input type="file" onchange="onImgInput(event)">
         <div class="gallery-container">
         </div>
     </div>
@@ -20,10 +22,12 @@
     <div class="main-editor main-layout">
         <canvas class="editor"></canvas>
         <div class="edit-container">
-            <input class="txt-input" type="text" name="meme-txt" placeholder="Your Text Here" onchange="onAddTxt(this)">
+            <input class="txt-input" type="text" name="meme-txt" placeholder="Your Text Here" onkeyup="onTypeTxt(this)"
+                onchange="onAddTxt(this)">
             <input class="color-input" type="color" name="txt-clr" onchange="onClrChange(this)">
-            <button class="txt-size-btn" onclick="onChangeSize(1)">+</button>
-            <button class="txt-size-btn" onclick="onChangeSize(-1)">-</button>
+            <button class="delete-btn fa-solid fa-trash-can" onclick="onDelete()"></button>
+            <button class="txt-size-btn fa-solid fa-plus" onclick="onChangeSize(1)"></button>
+            <button class="txt-size-btn fa-solid fa-minus" onclick="onChangeSize(-1)">-</button>
             <button class="focus-btn" onclick="onSwitchFocus()">Switch Focus</button>
             <!-- <button class="add-btn" >Add</button> -->
         </div>

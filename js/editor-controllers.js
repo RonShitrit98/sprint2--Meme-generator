@@ -9,17 +9,31 @@ function setEditor(elImg) {
     gCtx = gCanvas.getContext('2d')
     addListeners()
     gElMemeImg = elImg
-    gCanvas.width = elImg.width
-    gCanvas.height = elImg.height
-    renderMeme(elImg)
+    if (elImg.width > 700) {
+        var scale = Math.min(700 / gElMemeImg.width, 700 / gElMemeImg.height);
+        gCanvas.width = gElMemeImg.width * scale
+        gCanvas.height = gElMemeImg.height * scale
+    } else {
+        gCanvas.width = elImg.width
+        gCanvas.height = elImg.height
+    }
+
+    renderMeme()
     clearGrubbedObj()
 }
 
 function renderMeme() {
-    gCtx.drawImage(gElMemeImg, 0, 0)
+    gCtx.fillStyle = 'white'
+    gCtx.fillRect(0, 0, gCanvas.width, gCanvas.height)
+    gCtx.drawImage(gElMemeImg, 0, 0, gCanvas.width, gCanvas.height)
     var currObj = getGrabbedObj()
     renderFocus()
     renderObjs()
+}
+
+function scaleToFit(img) {
+    // get the scale
+    // get the top left position of the image
 }
 
 function renderObjs() {
@@ -42,9 +56,9 @@ function renderObjs() {
 
 function renderFocus() {
     const obj = getFocusedObj()
-    if(obj){
+    if (obj) {
         gCtx.lineWidth = 8
-        gCtx.strokeRect(obj.x-5, obj.y+10, obj.width + 10, -(obj.height + 10))
+        gCtx.strokeRect(obj.x - 5, obj.y + 10, obj.width + 10, -(obj.height + 10))
     }
 }
 
@@ -70,32 +84,28 @@ function onUp() {
 }
 
 
-
 function onMove(ev) {
     const pos = getEvPos(ev)
     var obj = getGrabbedObj()
     if (obj) {
-        obj.x = pos.x
-        obj.y = pos.y
+        obj.x = pos.x - obj.width / 2
+        obj.y = pos.y + obj.height / 2
         renderMeme(gElMemeImg)
     }
 
 }
 
-function getEvPos(ev) {
-    var pos = {
-        x: ev.offsetX,
-        y: ev.offsetY
-    }
-    // if (gTouchEvs.includes(ev.type)) {
-    //     ev.preventDefault()
-    //     ev = ev.changedTouches[0]
-    //     pos = {
-    //         x: ev.pageX - ev.target.offsetLeft - ev.target.clientLeft,
-    //         y: ev.pageY - ev.target.offsetTop - ev.target.clientTop
-    //     }
-    // }
-    return pos
+function onTypeTxt(elTxt) {
+    renderMeme()
+    const style = getStyle()
+    const txt = elTxt.value
+    console.log(txt)
+    gCtx.font = `${style.fontSize}px ${style.font}`
+    gCtx.fillStyle = style.fill
+    gCtx.lineWidth = style.lineWidth
+    gCtx.strokeStyle = style.stroke
+    gCtx.fillText(txt, 50, 50, gCanvas.width)
+    gCtx.strokeText(txt, 50, 50, gCanvas.width)
 }
 
 function onAddTxt(elTxt) {
@@ -105,6 +115,7 @@ function onAddTxt(elTxt) {
 }
 
 function onClrChange(elInput) {
+    console.log('clr')
     console.log(elInput.value)
     setNewClr(elInput.value)
     renderMeme()
@@ -115,8 +126,14 @@ function onChangeSize(sizeAdd) {
     renderMeme()
 }
 
-function onSwitchFocus(){
+function onSwitchFocus() {
     switchFocus()
     renderMeme()
 }
 
+function onDelete() {
+    deleteObj()
+    switchFocus()
+    renderMeme()
+
+}

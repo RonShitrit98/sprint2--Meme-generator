@@ -95,7 +95,8 @@ function getStyle() {
 
 function setNewClr(clr) {
     const obj = getFocusedObj()
-    obj.style.fill = clr
+    if(obj) obj.style.fill = clr
+    gStyle.fill = clr
 }
 
 function setSize(sizeAdd) {
@@ -110,8 +111,31 @@ function getFocusedObj() {
 }
 
 function switchFocus(){
+    if(!gMemeObjs[0]) return
    const objIdx = gMemeObjs.findIndex(obj => obj.isFocused) + 1
     clearFocus()
     if(gMemeObjs[objIdx]) gMemeObjs[objIdx].isFocused = true
     else gMemeObjs[0].isFocused = true
+}
+
+function getEvPos(ev) {
+    var pos = {
+        x: ev.offsetX,
+        y: ev.offsetY
+    }
+    // if (gTouchEvs.includes(ev.type)) {
+    //     ev.preventDefault()
+    //     ev = ev.changedTouches[0]
+    //     pos = {
+    //         x: ev.pageX - ev.target.offsetLeft - ev.target.clientLeft,
+    //         y: ev.pageY - ev.target.offsetTop - ev.target.clientTop
+    //     }
+    // }
+    return pos
+}
+
+function deleteObj(){
+    const objIdx = gMemeObjs.findIndex(obj => obj.isFocused)
+    if(objIdx === -1) return
+    gMemeObjs.splice(objIdx, 1)
 }
