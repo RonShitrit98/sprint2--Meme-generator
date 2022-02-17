@@ -9,7 +9,7 @@ function renderImgs(){
     const imgs = getImgs()
     var strHtml = ''
     imgs.forEach(img => {
-        strHtml+= `<div class="meme-image"><img  onclick="onImgSelect(this)" id="${img.id}" src="${img.url}"></div>`
+        strHtml+= `<img class="meme" onclick="onImgSelect(this)" id="${img.id}" src="${img.url}">`
     })
     document.querySelector('.gallery-container').innerHTML = strHtml
 }

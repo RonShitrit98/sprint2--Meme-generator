@@ -9,8 +9,9 @@ function setEditor(elImg) {
     gCtx = gCanvas.getContext('2d')
     addListeners()
     gElMemeImg = elImg
-    if (elImg.width > 700) {
-        var scale = Math.min(700 / gElMemeImg.width, 700 / gElMemeImg.height);
+    // gCanvas.width = elContainer.offsetWidth / 2
+    if (elImg.width > 600) {
+        var scale = Math.min(600 / gElMemeImg.width, 600/ gElMemeImg.height);
         gCanvas.width = gElMemeImg.width * scale
         gCanvas.height = gElMemeImg.height * scale
     } else {
@@ -65,6 +66,7 @@ function renderFocus() {
 
 function addListeners() {
     addMouseListeners()
+    addTouchListeners()
 }
 
 function addMouseListeners() {
@@ -76,10 +78,13 @@ function addTouchListeners() {
     gCanvas.addEventListener('touchmove', onMove)
     gCanvas.addEventListener('touchstart', onDown)
     gCanvas.addEventListener('touchend', onUp)
+        // gCanvas.addEventListener('touc', preventScroll);
+    
 }
 
 
 function onDown(ev) {
+    console.log(ev)
     const pos = getEvPos(ev)
     setGrubbedObj(pos)
     renderMeme()
@@ -92,15 +97,12 @@ function onUp() {
 
 function onMove(ev) {
     const pos = getEvPos(ev)
-    ev.preventDefault();
-    ev.stopPropagation();
     var obj = getGrabbedObj()
     if (obj) {
         obj.x = pos.x - obj.width / 2
         obj.y = pos.y + obj.height / 2
         renderMeme(gElMemeImg)
     }
-
 }
 
 function onTypeTxt(elTxt) {
@@ -123,8 +125,6 @@ function onAddTxt(elTxt) {
 }
 
 function onClrChange(elInput) {
-    console.log('clr')
-    console.log(elInput.value)
     setNewClr(elInput.value)
     renderMeme()
 }
@@ -145,3 +145,17 @@ function onDelete() {
     renderMeme()
 
 }
+
+function downloadImg(elLink) {
+    var imgContent = gCanvas.toDataURL('image/jpeg')
+    elLink.href = imgContent
+}
+
+// function resizeCanvas() {
+//     var elContainer = document.querySelector('.canvas-container')
+//     // Note: changing the canvas dimension this way clears the canvas
+//     gCanvas.width = elContainer.offsetWidth / 2
+//     // Unless needed, better keep height fixed.
+//     //   gCanvas.height = elContainer.offsetHeight
+//   }
+  

@@ -1,10 +1,16 @@
 .main-header{
-    height: 15vh;
-    background-color: bisque;
+    height: 2.0625rem;
+    background-color: var(--mainclr);
+    /* background-color: bisque; */
 }
-.main-header .logo{
+/* .header-bcg{
+} */
+/* .main-header .logo{
     font-size: 2rem;
     font-family: Impact ;
     color: white;
     text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+} */
+.main-header .logo:hover{
+ cursor: pointer;
 }

@@ -1,5 +1,7 @@
 body{
-    background-color: rgb(217, 180, 251);
+    background-color: white;
     margin: 0 auto;
+    box-sizing: border-box;
+    font-family:monst-reg ;
 }
 

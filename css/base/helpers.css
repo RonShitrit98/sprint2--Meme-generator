@@ -6,3 +6,19 @@
 .flex{
     display: flex;
 }
+
+.flex.space-between{
+    justify-content: space-between;
+}
+.flex.align-center{
+    align-items: center;
+}
+
+.edit-btn{
+    font-family:monst-reg ;
+    border-radius: 10px;
+    border: none;
+    background-color: white;
+    padding: 6px;
+    min-height: 1.875rem;
+}

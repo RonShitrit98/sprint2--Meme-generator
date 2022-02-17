@@ -29,7 +29,7 @@ var gStyle = {
 
 function getImgsStarter() {
     var imgs = []
-    for (var i = 1; i <= 18; i++) {
+    for (var i = 1; i <= 25; i++) {
         imgs.push({
             id: i,
             url: `meme-imgs/${i}.jpg`,

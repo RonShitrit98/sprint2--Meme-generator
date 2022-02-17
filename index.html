@@ -2,33 +2,41 @@
 <html lang="en">
 
 <head>
-    <script src="https://kit.fontawesome.com/bd3dba47f4.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/styles.css">
     <title>Meme Generator</title>
 </head>
 
 
 <body onload="onInit()">
-    <div class="main-header">
-        <div class="logo  main-layout" onclick="onLogoClick()">Meme Generator</div>
-    </div>
-
-    <div class="main-gallery main-layout">
-        <input type="file" onchange="onImgInput(event)">
-        <div class="gallery-container">
+    <div class="main-header header-bcg">
+        
+        <div class="main-header main-layout flex space-between align-center">
+            <img src="design-imgs/logo mobile.png" class="logo" onclick="onLogoClick()"></div>
+            <!-- <div class="logo" onclick="onLogoClick()">Meme Generator</div> -->
         </div>
     </div>
+</div>
+
+<div class="search-bar">
+    <div>Choose a photo from the gallery or upload your own:</div>
+    <input class="img-input" type="file" onchange="onImgInput(event)">
+</div>
+
+<div class="main-gallery">
+        <div class="gallery-container"></div>
+        </div>
 
     <div class="main-editor main-layout">
         <canvas class="editor"></canvas>
         <div class="edit-container">
-            <input class="txt-input" type="text" name="meme-txt" placeholder="Your Text Here" onkeyup="onTypeTxt(this)"
+            <input class="txt-input edit-btn" type="text" name="meme-txt" placeholder="Your Text Here" onkeyup="onTypeTxt(this)"
                 onchange="onAddTxt(this)">
-            <input class="color-input" type="color" name="txt-clr" onchange="onClrChange(this)">
-            <button class="delete-btn fa-solid fa-trash-can" onclick="onDelete()"></button>
-            <button class="txt-size-btn fa-solid fa-plus" onclick="onChangeSize(1)"></button>
-            <button class="txt-size-btn fa-solid fa-minus" onclick="onChangeSize(-1)">-</button>
-            <button class="focus-btn" onclick="onSwitchFocus()">Switch Focus</button>
+            <input class="color-input edit-btn" type="color" name="txt-clr" onchange="onClrChange(this)">
+            <button class="delete-btn edit-btn" onclick="onDelete()">Delete</button>
+            <button class="txt-size-btn edit-btn" onclick="onChangeSize(1)">+</button>
+            <button class="txt-size-btn edit-btn" onclick="onChangeSize(-1)">-</button>
+            <button class="focus-btn edit-btn" onclick="onSwitchFocus()">Switch Focus</button>
+            <a href="#" class="download-btn edit-btn" onclick="downloadImg(this)" download="meme.jpg">Download</a>
             <!-- <button class="add-btn" >Add</button> -->
         </div>
     </div>
