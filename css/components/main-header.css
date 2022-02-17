@@ -1,16 +1,17 @@
 .main-header{
     height: 2.0625rem;
     background-color: var(--mainclr);
-    /* background-color: bisque; */
+    display: flex;
+     /* align-items: center; */
+    justify-content: space-between;
 }
 /* .header-bcg{
 } */
-/* .main-header .logo{
-    font-size: 2rem;
-    font-family: Impact ;
-    color: white;
-    text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
-} */
+.main-header .logo{
+    align-self: center;
+}
 .main-header .logo:hover{
  cursor: pointer;
+ color: rgba(red, 00, 00, 0.5);
 }
+

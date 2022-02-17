@@ -6,8 +6,8 @@
     gap: 13px;
     justify-content: center;
     background-color: var(--bcgclr);
-    width: 100vw;
-    /* margin: 25.5px; */
+    /* width: 100vw; */
+    padding: 25.5px;
 }
 
 .gallery-container img{
@@ -24,10 +24,10 @@ opacity: 0.5;
 cursor:pointer;
 }
 
-.search-bar{
+/* .search-bar{
     height: 3.1875rem;
     background-color: white;
-}
+} */
 
 /* .grid{
     display: grid;

@@ -8,19 +8,18 @@
 
 
 <body onload="onInit()">
+
     <div class="main-header header-bcg">
-        
-        <div class="main-header main-layout flex space-between align-center">
-            <img src="design-imgs/logo mobile.png" class="logo" onclick="onLogoClick()"></div>
+        <div class="main-header main-layout">
+            <img src="design-imgs/logo mobile.png" class="logo" onclick="onLogoClick()">
+            <div class="search-bar">
+                <div>Choose a photo from the gallery or upload your own:</div>
+                <input class="img-input" type="file" onchange="onImgInput(event)">
+            </div>
             <!-- <div class="logo" onclick="onLogoClick()">Meme Generator</div> -->
         </div>
     </div>
-</div>
-
-<div class="search-bar">
-    <div>Choose a photo from the gallery or upload your own:</div>
-    <input class="img-input" type="file" onchange="onImgInput(event)">
-</div>
+    
 
 <div class="main-gallery">
         <div class="gallery-container"></div>
