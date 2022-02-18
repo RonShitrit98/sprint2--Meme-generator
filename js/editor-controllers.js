@@ -41,7 +41,6 @@ function renderObjs() {
     const objs = getObjs()
     objs.forEach(obj => {
         if (obj.txt) {
-            // const style = getStyle()
             gCtx.font = `${obj.style.fontSize}px ${obj.style.font}`
             gCtx.fillStyle = obj.style.fill
             gCtx.lineWidth = obj.style.lineWidth
@@ -58,7 +57,8 @@ function renderObjs() {
 function renderFocus() {
     const obj = getFocusedObj()
     if (obj) {
-        gCtx.lineWidth = 8
+        gCtx.strokeStyle = 'rgba(255, 0, 0, 0.5)'
+        gCtx.lineWidth = 3
         gCtx.strokeRect(obj.x - 5, obj.y + 10, obj.width + 10, -(obj.height + 10))
     }
 }
@@ -88,6 +88,7 @@ function onDown(ev) {
     const pos = getEvPos(ev)
     setGrubbedObj(pos)
     renderMeme()
+    gCanvas.style.cursor = 'grabbing'
 }
 
 function onUp() {
@@ -99,10 +100,11 @@ function onMove(ev) {
     const pos = getEvPos(ev)
     var obj = getGrabbedObj()
     if (obj) {
+        gCanvas.style.cursor = 'grabbing'
         obj.x = pos.x - obj.width / 2
         obj.y = pos.y + obj.height / 2
         renderMeme(gElMemeImg)
-    }
+    }else gCanvas.style.cursor = 'grab'
 }
 
 function onTypeTxt(elTxt) {

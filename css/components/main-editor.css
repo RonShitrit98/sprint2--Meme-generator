@@ -1,27 +1,96 @@
 .main-editor{
-    background-color: beige;
+    background-color: var(--bcgclr);
     display: none;
+    /* height: 90vh; */
+    /* padding: 50px */
 }
 .editor{
     border: solid 1px black;
+    align-self: center;
 }
 .main-editor .edit-container{
+    margin: 1em;
     display: grid;
-    grid-template: 1fr 1fr 1fr /50px 50px 50px ;
-    gap:2em ;
+    grid-template: 1 1 1 1 1 1 / 1fr 1fr 1fr 1fr 1fr;
+    gap:13px ;
     align-self: center;
-    margin: auto;
+    /* align-content: center; */
+    /* justify-self: center; */
+    /* width: 500px; */
+    /* text-align: center; */
+
+    margin-left: 50px;
     /* height: 300px;
     width: 300px;
     align-content: center; */
 }
+.edit-container
 
 .txt-input{
     grid-row: 1;
-    grid-column: span 3;
+    grid-column: span 5;
 }
 
+.focus-btn, .delete-btn, .add-btn{
+    margin-bottom: 20px;
+    grid-row: 2;
+    /* width:3.75rem ; */
+    /* grid-column: span 3; */
+}
 .focus-btn{
-    grid-column: span 3;
+    grid-column: 2;
+}
+.txt-align-btn, .txt-size-btn{
+    width:3.75rem ;
+    grid-row: 3;
+}
+
+.add-btn{
+    grid-column: 3;
+}
+
+.delete-btn{
+    grid-column: 4;
+}
+
+
+.font-select, .stroke-btn , .color-btn{
+    margin-bottom: 15px;
+    /* background-color: aqua; */
+    grid-row: 4
+}
+
+.stickers{
+    grid-row: 5;
+    grid-column: span 5;
+    height: 80px ;
+}
+.stroke-btn, .color-btn{
+    width:3.75rem ;
+}
+.font-select{
+    grid-column: 1/ span 3 ;
+}
+
+.download-btn{
+    display: flex;
+    grid-row: 6;
+    grid-column: 4 / span 2;
+    background-color: var(--mainclr);
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+}
+.download-btn a{
+background-color: yellowgreen;
+}
+
+.color-input{
+    display: none
+}
+
+.main-editor img{
+    height: 40px;
 }
 

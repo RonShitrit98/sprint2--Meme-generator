@@ -1,0 +1,10 @@
+/* @media (max-width){
+    canvas{
+        /* max-width: 90vh; */
+    }
+} */
+@media (max-width: 1050px) {
+    .main-editor{
+        flex-direction: column;
+    }
+}

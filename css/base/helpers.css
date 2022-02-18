@@ -10,15 +10,27 @@
 .flex.space-between{
     justify-content: space-between;
 }
+
+.flex.justify-center{
+    justify-content: center;
+}
+
 .flex.align-center{
     align-items: center;
 }
 
+.flex.space-evenly{
+    justify-content: space-evenly;
+}
+
 .edit-btn{
-    font-family:monst-reg ;
     border-radius: 10px;
     border: none;
     background-color: white;
     padding: 6px;
-    min-height: 1.875rem;
+    height: 3.75rem;
+}
+.edit-btn:hover{
+border: 1px solid black;
+cursor: pointer;
 }
