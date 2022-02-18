@@ -1,7 +1,6 @@
 @import 'setup/typography.css';
 @import 'setup/vars.css';
 
-@import 'base/mq.css';
 @import 'base/basic.css';
 @import 'base/helpers.css';
 
@@ -10,3 +9,4 @@
 @import 'components/main-editor.css';
 @import 'components/footer.css';
 @import 'components/about.css';
+@import 'base/mq.css';
