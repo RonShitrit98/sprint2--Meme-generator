@@ -9,36 +9,37 @@ function setEditor(elImg) {
     gCtx = gCanvas.getContext('2d')
     addListeners()
     gElMemeImg = elImg
-    // gCanvas.width = elContainer.offsetWidth / 2
     if (elImg.width > 600) {
-        var scale = Math.min(600 / gElMemeImg.width, 600/ gElMemeImg.height);
+        var scale = Math.min(600 / gElMemeImg.width, 600 / gElMemeImg.height);
         gCanvas.width = gElMemeImg.width * scale
         gCanvas.height = gElMemeImg.height * scale
     } else {
         gCanvas.width = elImg.width
         gCanvas.height = elImg.height
     }
-
+    
     renderMeme()
-    clearGrubbedObj()
+    renderStickers()
 }
 
 function renderMeme() {
-    gCtx.fillStyle = 'white'
-    gCtx.fillRect(0, 0, gCanvas.width, gCanvas.height)
     gCtx.drawImage(gElMemeImg, 0, 0, gCanvas.width, gCanvas.height)
-    var currObj = getGrabbedObj()
     renderFocus()
     renderObjs()
 }
 
-function scaleToFit(img) {
-    // get the scale
-    // get the top left position of the image
+function addListeners() {
+    gCanvas.addEventListener('mousemove', onMove)
+    gCanvas.addEventListener('mousedown', onDown)
+    gCanvas.addEventListener('mouseup', onUp)
+    gCanvas.addEventListener('touchmove', onMove)
+    gCanvas.addEventListener('touchstart', onDown)
+    gCanvas.addEventListener('touchend', onUp)
 }
 
 function renderObjs() {
     const objs = getObjs()
+    if(objs===[]||!objs) return
     objs.forEach(obj => {
         if (obj.txt) {
             gCtx.font = `${obj.style.fontSize}px ${obj.style.font}`
@@ -50,12 +51,16 @@ function renderObjs() {
             const txtWidth = gCtx.measureText(obj.txt);
             obj.width = txtWidth.width
             obj.height = obj.style.fontSize
+        }else if(obj.img){
+            gCtx.drawImage(obj.img, obj.x, obj.y-obj.height, obj.width, obj.height)
+
         }
     })
 }
 
 function renderFocus() {
     const obj = getFocusedObj()
+    if(!obj) return
     if (obj) {
         gCtx.strokeStyle = 'rgba(255, 0, 0, 0.5)'
         gCtx.lineWidth = 3
@@ -63,71 +68,60 @@ function renderFocus() {
     }
 }
 
+function renderStickers(){
+    const stickers = getStickers()
+    for(var i = 0;i<stickers.length;i++){
+        var strHtml = `<img onclick="onAddSticker(this)" src="${stickers[i].url}">`
+      var elSticker = document.getElementById(`sticker${i+1}`)
+      elSticker.innerHTML = strHtml
+    }
 
-function addListeners() {
-    addMouseListeners()
-    addTouchListeners()
 }
 
-function addMouseListeners() {
-    gCanvas.addEventListener('mousemove', onMove)
-    gCanvas.addEventListener('mousedown', onDown)
-    gCanvas.addEventListener('mouseup', onUp)
-}
-function addTouchListeners() {
-    gCanvas.addEventListener('touchmove', onMove)
-    gCanvas.addEventListener('touchstart', onDown)
-    gCanvas.addEventListener('touchend', onUp)
-        // gCanvas.addEventListener('touc', preventScroll);
-    
-}
-
-
-function onDown(ev) {
-    console.log(ev)
-    const pos = getEvPos(ev)
-    setGrubbedObj(pos)
+function onAddSticker(elSticker){
+    addStickerObj(elSticker)
     renderMeme()
-    gCanvas.style.cursor = 'grabbing'
 }
 
-function onUp() {
-    clearGrubbedObj()
-}
-
-
-function onMove(ev) {
-    const pos = getEvPos(ev)
-    var obj = getGrabbedObj()
-    if (obj) {
-        gCanvas.style.cursor = 'grabbing'
-        obj.x = pos.x - obj.width / 2
-        obj.y = pos.y + obj.height / 2
-        renderMeme(gElMemeImg)
-    }else gCanvas.style.cursor = 'grab'
+function onMoveStickers(pos){
+    moveStickers(pos)
+    renderStickers()
 }
 
 function onTypeTxt(elTxt) {
     renderMeme()
     const style = getStyle()
     const txt = elTxt.value
-    console.log(txt)
     gCtx.font = `${style.fontSize}px ${style.font}`
     gCtx.fillStyle = style.fill
     gCtx.lineWidth = style.lineWidth
     gCtx.strokeStyle = style.stroke
-    gCtx.fillText(txt, 50, 50, gCanvas.width)
-    gCtx.strokeText(txt, 50, 50, gCanvas.width)
+    gCtx.fillText(txt, 20, 50, gCanvas.width)
+    gCtx.strokeText(txt, 20, 50, gCanvas.width)
 }
 
-function onAddTxt(elTxt) {
-    const txt = elTxt.value
+function onAddTxt(elTxt=false) {
+    var txt = elTxt.value
+    if(!elTxt){
+        txt = document.querySelector('.txt-input').value
+    }
     setNewTxt(txt)
     renderMeme()
 }
 
 function onClrChange(elInput) {
     setNewClr(elInput.value)
+    renderMeme()
+}
+
+function onChangeFont(elInput){
+setNewFont(elInput.value)
+renderMeme()
+renderFocus()
+}
+
+function onStrokeChange(elInput) {
+    setNewStrokeClr(elInput.value)
     renderMeme()
 }
 
@@ -148,16 +142,62 @@ function onDelete() {
 
 }
 
-function downloadImg(elLink) {
+function onDownloadImg(elLink) {
+    clearFocus()
+    renderMeme()
     var imgContent = gCanvas.toDataURL('image/jpeg')
     elLink.href = imgContent
 }
 
-// function resizeCanvas() {
-//     var elContainer = document.querySelector('.canvas-container')
-//     // Note: changing the canvas dimension this way clears the canvas
-//     gCanvas.width = elContainer.offsetWidth / 2
-//     // Unless needed, better keep height fixed.
-//     //   gCanvas.height = elContainer.offsetHeight
-//   }
-  
+function onOpenColorInput(elBtn) {
+    const elInput = document.querySelector('.color-input')
+    elInput.style.display = 'block'
+    elBtn.style.display = 'none'
+}
+
+function onOpenStrokeColor(elBtn) {
+    const elInput = document.querySelector('.stroke-input')
+    elInput.style.display = 'block'
+    elBtn.style.display = 'none'
+}
+
+function onAlignTxt(pos) {
+    const obj = getFocusedObj()
+    switch (pos) {
+        case 'left':
+            obj.x = 20
+            break
+        case 'center':
+            obj.x = (gCanvas.width - obj.width)/2
+            break
+        case 'right':
+            obj.x = gCanvas.width - obj.width - 20
+            break
+        default: return
+    }
+    renderMeme()
+    renderStickers()
+}
+
+function onDown(ev) {
+    const pos = getEvPos(ev)
+    setGrubbedObj(pos)
+    renderMeme()
+    gCanvas.style.cursor = 'grabbing'
+}
+
+function onUp() {
+    clearGrubbedObj()
+}
+
+
+function onMove(ev) {
+    const pos = getEvPos(ev)
+    var obj = getGrabbedObj()
+    if (obj) {
+        gCanvas.style.cursor = 'grabbing'
+        obj.x = pos.x - obj.width / 2
+        obj.y = pos.y + obj.height / 2
+        renderMeme(gElMemeImg)
+    } else gCanvas.style.cursor = 'grab'
+}

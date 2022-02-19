@@ -11,3 +11,6 @@ body{
     justify-content: space-between;
 }
 
+.sticker.one{
+    border:3px solid black ;
+}

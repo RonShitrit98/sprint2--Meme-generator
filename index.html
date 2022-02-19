@@ -16,7 +16,6 @@
                 <div>Gallery</div>
                 <div>About</div>
             </div>
-            <!-- <div class="logo" onclick="onLogoClick()">Meme Generator</div> -->
         </div>
     </div>
 
@@ -36,32 +35,41 @@
             <input class="txt-input edit-btn" type="text" name="meme-txt" placeholder="Your Text Here"
                 onkeyup="onTypeTxt(this)" onchange="onAddTxt(this)">
             <button class="add-btn edit-btn"><img src="design-imgs/add.png"></button>
-            <button class="color-btn edit-btn"><img src="design-imgs/paint-board-and-brush.png"></button>
+            <button class="color-btn edit-btn" onclick="onOpenColorInput(this)"><img src="design-imgs/paint-board-and-brush.png"></button>
             <button class="txt-size-btn edit-btn" onclick="onChangeSize(1)"><img
                     src="design-imgs/increase font - icon.png"></button>
             <button class="txt-size-btn edit-btn" onclick="onChangeSize(-1)"><img
                     src="design-imgs/decrease font - icon.png"></button>
-            <button class="txt-align-btn edit-btn"><img src="design-imgs/align-to-left.png"></button>
-            <button class="txt-align-btn edit-btn"><img src="design-imgs/center-text-alignment.png"></button>
-            <button class="txt-align-btn edit-btn"><img src="design-imgs/align-to-right.png"></button>
-            <button class="stroke-btn edit-btn"><img src="design-imgs/text stroke.png"></button>
-            <select class="font-select edit-btn">
-                <option class="font-select" value="Impact">Impact</option>
-                <option value="2">2</option>
-                <option value="1">1</option>
+            <button class="txt-align-btn edit-btn" onclick="onAlignTxt('left')"><img src="design-imgs/align-to-left.png"></button>
+            <button class="txt-align-btn edit-btn" onclick="onAlignTxt('center')"><img src="design-imgs/center-text-alignment.png"></button>
+            <button class="txt-align-btn edit-btn" onclick="onAlignTxt('right')"><img src="design-imgs/align-to-right.png"></button>
+            <button class="stroke-btn edit-btn" onclick="onOpenStrokeColor(this)"><img src="design-imgs/text stroke.png"></button>
+            <select class="font-select edit-btn" onchange="onChangeFont(this)">
+                <option class="font-impact" value="impact">Impact</option>
+                <option class="font-arial" value="arial">Arial</option>
+                <option class="font-times-new-roman" value="times new roman">times new roman</option>
             </select>
             <input class="color-input edit-btn" type="color" name="txt-clr" onchange="onClrChange(this)">
+            <input class="stroke-input edit-btn" type="color" name="txt-clr" onchange="onStrokeChange(this)">
             <button class="delete-btn edit-btn" onclick="onDelete()"><img src="design-imgs/trash.png"></button>
             <button class="focus-btn edit-btn" onclick="onSwitchFocus()"><img
                     src="design-imgs/up-and-down-opposite-double-arrows-side-by-side.png"></button>
-                    <div class="stickers edit-btn">lkjolk</div>
-            <a href="#" class="download-btn edit-btn" onclick="downloadImg(this)" download="meme.jpg">Download</a>
+                    <div class="stickers edit-btn flex space-between align-center">
+                        <div class="sticker-btn" onclick="onMoveStickers('left')"><img src="design-imgs/arrow-left.png"></div>
+                        <div class="sticker" id="sticker1"></div>
+                        <div class="sticker" id="sticker2"></div>
+                        <div class="sticker" id="sticker3"></div>
+                        <div class="sticker-btn" onclick="onMoveStickers('right')"><img src="design-imgs/arrow-right.png"></div>
+                    </div>
+            <a href="#" class="download-btn edit-btn" onclick="onDownloadImg(this)" download="meme.jpg">Download</a>
         </div>
     </div>
 
 
     <div class="main-footer"></div>
 </body>
+
+<script src="js/services/storage-service.js"></script>
 <script src="js/services/meme-service.js"></script>
 <script src="js/editor-controllers.js"></script>
 <script src="js/gallery-controllers.js"></script>

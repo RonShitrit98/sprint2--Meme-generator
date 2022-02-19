@@ -1,23 +1,38 @@
 'use strict'
+const STORAGE_KEY = 'memeDB'
 var gImgs = getImgsStarter()
-var gMemeObjs = [{
-    txt: 'Your Text Here',
-    x: 50,
-    y: 50,
-    isGrabbed: false,
-    isFirstGrabbed: false,
-    isFocused: true,
-    style: {
-        font: 'impact',
-        fontSize: 50,
-        fill: 'white',
-        lineWidth: 3,
-        stroke: 'black'
-    }
+const gStickers = [{
+    id: 1,
+    url: `stickers/1.png`,
+}, {
+    id: 2,
+    url: `stickers/2.png`,
+}, {
+    id: 3,
+    url: `stickers/3.png`,
+}, {
+    id: 4,
+    url: `stickers/4.png`,
+}, {
+    id: 5,
+    url: `stickers/5.png`,
+}, {
+    id: 6,
+    url: `stickers/6.png`,
+}, {
+    id: 7,
+    url: `stickers/7.png`,
+}, {
+    id: 8,
+    url: `stickers/8.png`,
+}, {
+    id: 9,
+    url: `stickers/9.png`,
 }]
-var gGrabbedObj
-var gGrubbeObj = gMemeObjs[0]
+var gMemeObjs = []
+var gGrubbedObj
 const gTouchEvs = ['touchstart', 'touchmove', 'touchend']
+var gCurrStickers = [gStickers[0], gStickers[1], gStickers[2]]
 
 var gStyle = {
     font: 'impact',
@@ -28,12 +43,16 @@ var gStyle = {
 }
 
 function getImgsStarter() {
-    var imgs = []
-    for (var i = 1; i <= 25; i++) {
-        imgs.push({
-            id: i,
-            url: `meme-imgs/${i}.jpg`,
-        })
+    var imgs = loadFromStorage(STORAGE_KEY)
+    if(!imgs||imgs === []){
+        imgs = []
+        for (var i = 1; i <= 25; i++) {
+            imgs.push({
+                id: i,
+                url: `meme-imgs/${i}.jpg`,
+            })
+        }
+        saveToStorage(STORAGE_KEY,imgs)
     }
     return imgs
 }
@@ -42,29 +61,43 @@ function getImgs() {
     return gImgs
 }
 
+function getStickers() {
+    return gCurrStickers
+}
+
 function getObjs() {
     return gMemeObjs
 }
 
 function getGrabbedObj() {
-    return gGrubbeObj
+    return gGrubbedObj
 }
 
-function setGrubbedObj(pos) {
-    const clickedObj = gMemeObjs.find(obj =>
-        pos.x >= obj.x && pos.x <= obj.x + obj.width &&
-        pos.y <= obj.y && pos.y >= obj.y - obj.height)
-    gGrubbeObj = clickedObj
-    clearFocus()
-    if(clickedObj) clickedObj.isFocused = true
-    // gGrabbedObj.isFirstGrabbed = true
+function getStyle() {
+    return gStyle
 }
 
-function clearGrubbedObj() {
-    gGrubbeObj = undefined
+function getFocusedObj() {
+    var obj = gMemeObjs.find(obj => obj.isFocused)
+    return obj
 }
 
-function setObj(pos) {
+function addStickerObj(elSticker){
+    gMemeObjs.push({
+        img: elSticker,
+        x: 50,
+        y:50,
+        width: elSticker.width,
+        height: elSticker.height
+    })
+}
+
+function setNewImg(img){
+    gImgs.unshift({
+        id:gImgs.length,
+        url: `${img}`
+    })
+    saveToStorage(STORAGE_KEY,gImgs)
 }
 
 function setNewTxt(txt) {
@@ -74,7 +107,6 @@ function setNewTxt(txt) {
         x: 50,
         y: 50,
         isGrabbed: false,
-        isFirstGrabbed: false,
         isFocused: true,
         style: {
             font: gStyle.font,
@@ -86,37 +118,81 @@ function setNewTxt(txt) {
     })
 }
 
-function clearFocus() {
-    gMemeObjs.forEach(obj => obj.isFocused = false)
+function setGrubbedObj(pos) {
+    const clickedObj = gMemeObjs.find(obj =>
+        (pos.x >= obj.x && pos.x <= obj.x + obj.width &&
+        pos.y <= obj.y && pos.y >= obj.y - obj.height)|| (pos.x >= obj.x && pos.x <= obj.x + obj.width &&
+        pos.y <= obj.y && pos.y >= obj.y + obj.height))
+    gGrubbedObj = clickedObj
+    clearFocus()
+    if (clickedObj) clickedObj.isFocused = true
 }
 
-function getStyle() {
-    return gStyle
+function setNewFont(font) {
+    const obj = getFocusedObj()
+    if (obj) obj.style.font = font
+    gStyle.font = font
 }
 
 function setNewClr(clr) {
     const obj = getFocusedObj()
-    if(obj) obj.style.fill = clr
+    if (obj) obj.style.fill = clr
     gStyle.fill = clr
 }
 
-function setSize(sizeAdd) {
-    // gStyle.fontSize += sizeAdd
+function setNewStrokeClr(clr) {
     const obj = getFocusedObj()
-    obj.style.fontSize+= sizeAdd
+    if (obj) obj.style.stroke = clr
+    gStyle.stroke = clr
 }
 
-function getFocusedObj() {
-    var obj = gMemeObjs.find(obj => obj.isFocused)
-    return obj
+function setSize(sizeAdd) {
+    const obj = getFocusedObj()
+    if(obj.txt){
+        obj.style.fontSize += sizeAdd
+    }else{
+        obj.width+=sizeAdd*10
+        obj.height+=sizeAdd*10
+    } 
 }
 
-function switchFocus(){
-    if(!gMemeObjs[0]) return
-   const objIdx = gMemeObjs.findIndex(obj => obj.isFocused) + 1
+function switchFocus() {
+    if (!gMemeObjs[0]) return
+    const objIdx = gMemeObjs.findIndex(obj => obj.isFocused) + 1
     clearFocus()
-    if(gMemeObjs[objIdx]) gMemeObjs[objIdx].isFocused = true
+    if (gMemeObjs[objIdx]) gMemeObjs[objIdx].isFocused = true
     else gMemeObjs[0].isFocused = true
+}
+
+function deleteObj() {
+    const objIdx = gMemeObjs.findIndex(obj => obj.isFocused)
+    if (objIdx === -1) return
+    gMemeObjs.splice(objIdx, 1)
+}
+
+function clearGrubbedObj() {
+    gGrubbedObj = undefined
+}
+
+function clearFocus() {
+    gMemeObjs.forEach(obj => obj.isFocused = false)
+}
+
+function moveStickers(pos) {
+    var moveTo
+    switch (pos) {
+        case 'right':
+            moveTo = 1
+            break
+        case 'left':
+            moveTo = -1
+            break
+        default: return
+    }
+    const idx = gStickers.findIndex(sticker => sticker === gCurrStickers[2])
+    if (idx >= gStickers.length - 1 && moveTo === 1) gCurrStickers = [gStickers[0], gStickers[1], gStickers[2]]
+    else if (idx <= 2 && moveTo === -1) gCurrStickers = [gStickers[gStickers.length - 3], gStickers[gStickers.length - 2], gStickers[gStickers.length - 1]]
+    else gCurrStickers = [gStickers[idx + moveTo], gStickers[idx + moveTo * 2], gStickers[idx + moveTo * 3]]
 }
 
 function getEvPos(ev) {
@@ -135,8 +211,17 @@ function getEvPos(ev) {
     return pos
 }
 
-function deleteObj(){
-    const objIdx = gMemeObjs.findIndex(obj => obj.isFocused)
-    if(objIdx === -1) return
-    gMemeObjs.splice(objIdx, 1)
+function loadImageFromInput(ev, onImageReady) {
+    var reader = new FileReader()
+    reader.onload = function (ev) {
+        var img = new Image()
+        img.onload = onImageReady.bind(null, img)
+        img.src = ev.target.result
+        setNewImg(img.src)
+    }
+    reader.readAsDataURL(ev.target.files[0])
 }
+
+
+
+

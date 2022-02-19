@@ -31,6 +31,5 @@
     height: 3.75rem;
 }
 .edit-btn:hover{
-border: 1px solid black;
 cursor: pointer;
 }

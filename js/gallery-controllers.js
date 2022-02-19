@@ -14,6 +14,13 @@ function renderImgs(){
     document.querySelector('.gallery-container').innerHTML = strHtml
 }
 
+function setGallery(){
+    const elEditor = document.querySelector('.main-editor')
+    elEditor.style.display = 'none'
+    const elGallery = document.querySelector('.main-gallery')
+    elGallery.style.display = 'block'
+}
+
 function onImgSelect(elImg){
     const elEditor = document.querySelector('.main-editor')
     elEditor.style.display = 'flex'
@@ -28,25 +35,20 @@ function getElImg(){
 }
 
 function onLogoClick(){
+    renderImgs()
     setGallery()
-}
-function setGallery(){
-    const elEditor = document.querySelector('.main-editor')
-    elEditor.style.display = 'none'
-    const elGallery = document.querySelector('.main-gallery')
-    elGallery.style.display = 'block'
 }
 
 function onImgInput(ev) {
     loadImageFromInput(ev, onImgSelect)
 }
 
-function loadImageFromInput(ev, onImageReady) {
-    var reader = new FileReader()
-    reader.onload = function (ev) {
-        var img = new Image()
-        img.onload = onImageReady.bind(null, img)
-        img.src = ev.target.result
-    }
-    reader.readAsDataURL(ev.target.files[0])
-}
+// function loadImageFromInput(ev, onImageReady) {
+//     var reader = new FileReader()
+//     reader.onload = function (ev) {
+//         var img = new Image()
+//         img.onload = onImageReady.bind(null, img)
+//         img.src = ev.target.result
+//     }
+//     reader.readAsDataURL(ev.target.files[0])
+// }

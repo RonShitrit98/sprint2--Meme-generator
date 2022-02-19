@@ -87,10 +87,32 @@ background-color: yellowgreen;
 }
 
 .color-input{
+    grid-row: 4;
+    grid-column: 4;
     display: none
+}
+
+.stroke-input{
+    grid-row: 4;
+    grid-column: 5;
+    display: none;
 }
 
 .main-editor img{
     height: 40px;
 }
 
+.stickers{
+    display: flex;
+    justify-content: space-between;
+}
+
+.font-impact{
+    font-family: Impact;
+}
+.font-arial{
+    font-family:arial;
+}
+.font-times-new-roman{
+    font-family: 'Times New Roman';
+}
