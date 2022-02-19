@@ -21,9 +21,11 @@
 
     
     <div class="main-gallery">
-        <div class="search-bar">
-            <div>Choose a photo from the gallery or upload your own:</div>
-            <input class="img-input" type="file" onchange="onImgInput(event)">
+        <div class="search-bar flex justify-center align-center">
+          <div class="img-input-container">
+              <input class="img-input" type="file" onchange="onImgInput(event)">
+          </div>  <!-- <div>Choose a photo from the gallery or upload your own:</div> -->
+            <div class="tag-list-container"></div>
         </div>
         <div class="gallery-container"></div>
         <div class="about"></div>

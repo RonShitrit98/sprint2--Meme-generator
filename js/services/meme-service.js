@@ -1,6 +1,7 @@
 'use strict'
 const STORAGE_KEY = 'memeDB'
 var gImgs = getImgsStarter()
+var gCurrImgs = gImgs
 const gStickers = [{
     id: 1,
     url: `stickers/1.png`,
@@ -52,13 +53,38 @@ function getImgsStarter() {
                 url: `meme-imgs/${i}.jpg`,
             })
         }
+        imgs[0].tag = 'tv'
+        imgs[1].tag = 'movies'
+        imgs[2].tag = 'politics'
+        imgs[3].tag = 'animals'
+        imgs[4].tag = 'funny'
+        imgs[5].tag = 'animals'
+        imgs[6].tag = 'movies'
+        imgs[7].tag = 'movies'
+        imgs[8].tag = 'funny'
+        imgs[9].tag = 'funny'
+        imgs[10].tag = 'politics'
+        imgs[11].tag = 'tv'
+        imgs[12].tag = 'funny'
+        imgs[13].tag = 'animals'
+        imgs[14].tag = 'politics'
+        imgs[15].tag = 'tv'
+        imgs[16].tag = 'funny'
+        imgs[17].tag = 'movies'
+        imgs[18].tag = 'movies'
+        imgs[19].tag = 'movies'
+        imgs[20].tag = 'tv'
+        imgs[21].tag = 'tv'
+        imgs[22].tag = 'politics'
+        imgs[23].tag = 'movies'
+        imgs[24].tag = 'animals'
         saveToStorage(STORAGE_KEY,imgs)
     }
     return imgs
 }
 
 function getImgs() {
-    return gImgs
+    return gCurrImgs
 }
 
 function getStickers() {
@@ -154,6 +180,19 @@ function setSize(sizeAdd) {
         obj.width+=sizeAdd*10
         obj.height+=sizeAdd*10
     } 
+}
+
+function sortImgs(sortBy){
+    if(sortBy==='all'){
+        gCurrImgs=gImgs
+        return
+    } 
+    gCurrImgs = []
+    gImgs.forEach(img => {
+        if(img.tag === sortBy){
+            gCurrImgs.push(img)
+        }
+    })
 }
 
 function switchFocus() {

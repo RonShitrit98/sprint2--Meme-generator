@@ -24,6 +24,14 @@ opacity: 0.5;
 cursor:pointer;
 }
 
+.tag-list{
+    display:flex;
+    /* background-color: burlywood; */
+    list-style-type: none;
+    gap: 1rem;
+
+    
+}
 
 /* .grid{
     display: grid;
