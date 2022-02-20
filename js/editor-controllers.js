@@ -38,10 +38,10 @@ function addListeners() {
 }
 
 function renderObjs() {
-    const objs = getObjs()
-    if(objs===[]||!objs) return
+    const objs = getMemes()
+    if(!objs[0]) return
     objs.forEach(obj => {
-        if (obj.txt) {
+        if (obj.isTxt) {
             gCtx.font = `${obj.style.fontSize}px ${obj.style.font}`
             gCtx.fillStyle = obj.style.fill
             gCtx.lineWidth = obj.style.lineWidth
@@ -51,7 +51,7 @@ function renderObjs() {
             const txtWidth = gCtx.measureText(obj.txt);
             obj.width = txtWidth.width
             obj.height = obj.style.fontSize
-        }else if(obj.img){
+        }else{
             gCtx.drawImage(obj.img, obj.x, obj.y-obj.height, obj.width, obj.height)
 
         }
@@ -59,7 +59,7 @@ function renderObjs() {
 }
 
 function renderFocus() {
-    const obj = getFocusedObj()
+    const obj = getFocused()
     if(!obj) return
     if (obj) {
         gCtx.strokeStyle = 'rgba(255, 0, 0, 0.5)'
@@ -79,7 +79,7 @@ function renderStickers(){
 }
 
 function onAddSticker(elSticker){
-    addStickerObj(elSticker)
+    addSticker(elSticker)
     renderMeme()
 }
 
@@ -105,7 +105,7 @@ function onAddTxt(elTxt=false) {
     if(!elTxt){
         txt = document.querySelector('.txt-input').value
     }
-    setNewTxt(txt)
+    addTxt(txt)
     renderMeme()
 }
 
@@ -121,7 +121,7 @@ renderFocus()
 }
 
 function onStrokeChange(elInput) {
-    setNewStrokeClr(elInput.value)
+    setNewStrokeColor(elInput.value)
     renderMeme()
 }
 
@@ -136,7 +136,7 @@ function onSwitchFocus() {
 }
 
 function onDelete() {
-    deleteObj()
+    removeMeme()
     switchFocus()
     renderMeme()
 
@@ -162,7 +162,7 @@ function onOpenStrokeColor(elBtn) {
 }
 
 function onAlignTxt(pos) {
-    const obj = getFocusedObj()
+    const obj = getFocused()
     switch (pos) {
         case 'left':
             obj.x = 20
@@ -181,7 +181,7 @@ function onAlignTxt(pos) {
 
 function onDown(ev) {
     const pos = getEvPos(ev)
-    setGrubbedObj(pos)
+    setGrubbed(pos)
     renderMeme()
     gCanvas.style.cursor = 'grabbing'
 }
@@ -193,7 +193,7 @@ function onUp() {
 
 function onMove(ev) {
     const pos = getEvPos(ev)
-    var obj = getGrabbedObj()
+    var obj = getGrabbed()
     if (obj) {
         gCanvas.style.cursor = 'grabbing'
         obj.x = pos.x - obj.width / 2

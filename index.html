@@ -10,26 +10,28 @@
 <body onload="onInit()">
 
     <div class="main-header header-bcg">
-        <div class="main-header main-layout ">
+        <div class="main-header main-layout">
             <img src="design-imgs/logo mobile.png" class="logo" onclick="onLogoClick()">
-            <div class="nav-bar flex align-center">
-                <div>Gallery</div>
-                <div>About</div>
-            </div>
+            <nav class="nav-bar flex align-center">
+                <div><a href="#gallery">Gallery</a></div>
+                <div><a href="#about">About</a></div>
+            </nav>
         </div>
     </div>
 
-    
-    <div class="main-gallery">
-        <div class="search-bar flex justify-center align-center">
-          <div class="img-input-container">
-              <input class="img-input" type="file" onchange="onImgInput(event)">
-          </div>  <!-- <div>Choose a photo from the gallery or upload your own:</div> -->
+    <div class="search-bar">
+        <div class="main-layout flex align-center space-between">
+            <div class="img-input-container">
+                <input class="img-input" type="file" id="img-input" onchange="onImgInput(event)">
+            </div>
             <div class="tag-list-container"></div>
         </div>
-        <div class="gallery-container"></div>
-        <div class="about"></div>
     </div>
+
+    <div class="main-gallery" id="gallery">
+        <div class="gallery-container"></div>
+    </div>
+
 
     <div class="main-editor main-layout flex space-evenly">
         <canvas class="editor"></canvas>
@@ -37,38 +39,65 @@
             <input class="txt-input edit-btn" type="text" name="meme-txt" placeholder="Your Text Here"
                 onkeyup="onTypeTxt(this)" onchange="onAddTxt(this)">
             <button class="add-btn edit-btn"><img src="design-imgs/add.png"></button>
-            <button class="color-btn edit-btn" onclick="onOpenColorInput(this)"><img src="design-imgs/paint-board-and-brush.png"></button>
             <button class="txt-size-btn edit-btn" onclick="onChangeSize(1)"><img
                     src="design-imgs/increase font - icon.png"></button>
             <button class="txt-size-btn edit-btn" onclick="onChangeSize(-1)"><img
                     src="design-imgs/decrease font - icon.png"></button>
-            <button class="txt-align-btn edit-btn" onclick="onAlignTxt('left')"><img src="design-imgs/align-to-left.png"></button>
-            <button class="txt-align-btn edit-btn" onclick="onAlignTxt('center')"><img src="design-imgs/center-text-alignment.png"></button>
-            <button class="txt-align-btn edit-btn" onclick="onAlignTxt('right')"><img src="design-imgs/align-to-right.png"></button>
-            <button class="stroke-btn edit-btn" onclick="onOpenStrokeColor(this)"><img src="design-imgs/text stroke.png"></button>
+            <button class="txt-align-btn edit-btn" onclick="onAlignTxt('left')"><img
+                    src="design-imgs/align-to-left.png"></button>
+            <button class="txt-align-btn edit-btn" onclick="onAlignTxt('center')"><img
+                    src="design-imgs/center-text-alignment.png"></button>
+            <button class="txt-align-btn edit-btn" onclick="onAlignTxt('right')"><img
+                    src="design-imgs/align-to-right.png"></button>
+
             <select class="font-select edit-btn" onchange="onChangeFont(this)">
                 <option class="font-impact" value="impact">Impact</option>
                 <option class="font-arial" value="arial">Arial</option>
                 <option class="font-times-new-roman" value="times new roman">times new roman</option>
             </select>
-            <input class="color-input edit-btn" type="color" name="txt-clr" onchange="onClrChange(this)">
-            <input class="stroke-input edit-btn" type="color" name="txt-clr" onchange="onStrokeChange(this)">
+
+            <label for="txt-clr" class="color-btn edit-btn"><img src="design-imgs/paint-board-and-brush.png"></label>
+            <input class="color-input edit-btn" type="color" id="txt-clr" onchange="onClrChange(this)">
+
+            <label for="stroke-clr" class="stroke-btn edit-btn"><img src="design-imgs/text stroke.png"></label>
+            <input class="stroke-input edit-btn" type="color" id="stroke-clr" onchange="onStrokeChange(this)">
+
             <button class="delete-btn edit-btn" onclick="onDelete()"><img src="design-imgs/trash.png"></button>
             <button class="focus-btn edit-btn" onclick="onSwitchFocus()"><img
                     src="design-imgs/up-and-down-opposite-double-arrows-side-by-side.png"></button>
-                    <div class="stickers edit-btn flex space-between align-center">
-                        <div class="sticker-btn" onclick="onMoveStickers('left')"><img src="design-imgs/arrow-left.png"></div>
-                        <div class="sticker" id="sticker1"></div>
-                        <div class="sticker" id="sticker2"></div>
-                        <div class="sticker" id="sticker3"></div>
-                        <div class="sticker-btn" onclick="onMoveStickers('right')"><img src="design-imgs/arrow-right.png"></div>
-                    </div>
+            <div class="stickers edit-btn flex space-between align-center">
+                <div class="sticker-btn" onclick="onMoveStickers('left')"><img src="design-imgs/arrow-left.png"></div>
+                <div class="sticker" id="sticker1"></div>
+                <div class="sticker" id="sticker2"></div>
+                <div class="sticker" id="sticker3"></div>
+                <div class="sticker-btn" onclick="onMoveStickers('right')"><img src="design-imgs/arrow-right.png"></div>
+            </div>
             <a href="#" class="download-btn edit-btn" onclick="onDownloadImg(this)" download="meme.jpg">Download</a>
         </div>
     </div>
 
+    <div class="about" id="about">
+        <div class="about main-layout flex justify-center align-center">
+            <div class="about-img"><img src="design-imgs/ron.jpg"></div>
+            <div class="about-info">
+                <div class="about-name">Ron Shitrit</div>
+                <p>I pictured a rainbow, You held it in your hands. I had flashes, But you saw the plan.
+                    I wandered out in the world for years, While you just stayed in your room.
+                    I saw the crescent, You saw the whole of the moon...
+                </p>
+                <div class="social flex">
+                    <div><img src="design-imgs/linkedin-logo.png"></div>
+                    <div><img src="design-imgs/facebook-logo.png"></div>
+                    <div><img src="design-imgs/github-logo.png"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <div class="main-footer"></div>
+    <div class="main-footer">
+        <div class="logo"><img src="design-imgs/logo mobile.png"></div>
+        <div class="rights">All Rights Reserved 2022</div>
+    </div>
 </body>
 
 <script src="js/services/storage-service.js"></script>

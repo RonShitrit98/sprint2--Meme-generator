@@ -1,4 +1,42 @@
 .about{
-    height: 283.5px;
+    height: 500px;
     background-color: white;
+}
+
+.about-img{
+    max-width: 250px;
+}
+
+.about-img img{
+    border-radius: 50%;
+    max-width: 100%;
+    object-fit: cover;
+    align-self: center;
+}
+.about-name{
+    /* margin: 0px; */
+    font-family: monst-bold;
+    font-size: 1.5rem;
+}
+
+.about-info{
+    max-width: 35vw;
+    margin-left: 2rem;
+}
+.social{
+    align-items: flex-end;
+    justify-content: start;
+}
+.social>*{
+    list-style-type: none;
+    background-color: var(--mainclr);
+    height: 40px;
+    width: 40px;
+    /* text-align: center; */
+    margin-right: 15px;
+    border-radius: 30%;
+}
+.social img{
+    max-width: 20px;
+    margin: 10px;
 }

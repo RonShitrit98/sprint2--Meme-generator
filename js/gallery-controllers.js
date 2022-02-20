@@ -16,7 +16,6 @@ function renderImgs() {
 }
 
 function renderTags() {
-    const imgs = getImgs()
     var strHtml = `<ul class="tag-list"><li onclick="onSortImgs('funny')">Funny</li>
     <li onclick="onSortImgs('animals')">Animals</li>
     <li onclick="onSortImgs('tv')">TV</li>
@@ -35,6 +34,7 @@ function setGallery() {
 }
 
 function onSortImgs(sortBy) {
+    console.log('boop')
     sortImgs(sortBy)
     renderImgs()
 }
@@ -60,13 +60,3 @@ function onLogoClick() {
 function onImgInput(ev) {
     loadImageFromInput(ev, onImgSelect)
 }
-
-// function loadImageFromInput(ev, onImageReady) {
-//     var reader = new FileReader()
-//     reader.onload = function (ev) {
-//         var img = new Image()
-//         img.onload = onImageReady.bind(null, img)
-//         img.src = ev.target.result
-//     }
-//     reader.readAsDataURL(ev.target.files[0])
-// }

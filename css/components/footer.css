@@ -1,4 +1,13 @@
 .main-footer{
     background-color: var(--mainclr);
     height: 206px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+}
+.rights{
+    font-family: monst-thin;
+    margin-top: 4px;
 }

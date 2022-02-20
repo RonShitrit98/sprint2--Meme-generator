@@ -23,15 +23,15 @@
 
 .nav-bar>*:first-child{
     border-right: 1px solid black;
-    padding-right: 4.5px;
+    /* margin-right: 4.5px; */
 }
-.nav-bar>*:last-child{
-    padding-left: 4.5px;
-}
-.nav-bar>*{
+
+.nav-bar a{
+    margin: 10px;
     color: white;
+    text-decoration: none;
 }
-.nav-bar>*:hover{
+.nav-bar a:hover{
     color: rgb(0, 0, 0);
     cursor: pointer;
 }

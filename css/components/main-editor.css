@@ -24,7 +24,6 @@
     width: 300px;
     align-content: center; */
 }
-.edit-container
 
 .txt-input{
     grid-row: 1;
@@ -87,8 +86,6 @@ background-color: yellowgreen;
 }
 
 .color-input{
-    grid-row: 4;
-    grid-column: 4;
     display: none
 }
 
@@ -115,4 +112,10 @@ background-color: yellowgreen;
 }
 .font-times-new-roman{
     font-family: 'Times New Roman';
+}
+
+.stroke-btn, .color-btn{
+    height: 50px;
+    width: 50px;
+    text-align: center;
 }

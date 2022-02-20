@@ -1,6 +1,6 @@
 'use strict'
 const STORAGE_KEY = 'memeDB'
-var gImgs = getImgsStarter()
+var gImgs = loadImgs()
 var gCurrImgs = gImgs
 const gStickers = [{
     id: 1,
@@ -30,8 +30,8 @@ const gStickers = [{
     id: 9,
     url: `stickers/9.png`,
 }]
-var gMemeObjs = []
-var gGrubbedObj
+var gMemes = []
+var gGrubbed
 const gTouchEvs = ['touchstart', 'touchmove', 'touchend']
 var gCurrStickers = [gStickers[0], gStickers[1], gStickers[2]]
 
@@ -43,92 +43,29 @@ var gStyle = {
     stroke: 'black'
 }
 
-function getImgsStarter() {
-    var imgs = loadFromStorage(STORAGE_KEY)
-    if(!imgs||imgs === []){
-        imgs = []
-        for (var i = 1; i <= 25; i++) {
-            imgs.push({
-                id: i,
-                url: `meme-imgs/${i}.jpg`,
-            })
-        }
-        imgs[0].tag = 'tv'
-        imgs[1].tag = 'movies'
-        imgs[2].tag = 'politics'
-        imgs[3].tag = 'animals'
-        imgs[4].tag = 'funny'
-        imgs[5].tag = 'animals'
-        imgs[6].tag = 'movies'
-        imgs[7].tag = 'movies'
-        imgs[8].tag = 'funny'
-        imgs[9].tag = 'funny'
-        imgs[10].tag = 'politics'
-        imgs[11].tag = 'tv'
-        imgs[12].tag = 'funny'
-        imgs[13].tag = 'animals'
-        imgs[14].tag = 'politics'
-        imgs[15].tag = 'tv'
-        imgs[16].tag = 'funny'
-        imgs[17].tag = 'movies'
-        imgs[18].tag = 'movies'
-        imgs[19].tag = 'movies'
-        imgs[20].tag = 'tv'
-        imgs[21].tag = 'tv'
-        imgs[22].tag = 'politics'
-        imgs[23].tag = 'movies'
-        imgs[24].tag = 'animals'
-        saveToStorage(STORAGE_KEY,imgs)
-    }
-    return imgs
-}
-
-function getImgs() {
-    return gCurrImgs
-}
-
-function getStickers() {
-    return gCurrStickers
-}
-
-function getObjs() {
-    return gMemeObjs
-}
-
-function getGrabbedObj() {
-    return gGrubbedObj
-}
-
-function getStyle() {
-    return gStyle
-}
-
-function getFocusedObj() {
-    var obj = gMemeObjs.find(obj => obj.isFocused)
-    return obj
-}
-
-function addStickerObj(elSticker){
-    gMemeObjs.push({
+function addSticker(elSticker) {
+    gMemes.push({
+        isTxt: false,
         img: elSticker,
         x: 50,
-        y:50,
+        y: 50,
         width: elSticker.width,
         height: elSticker.height
     })
 }
 
-function setNewImg(img){
+function setNewImg(img) {
     gImgs.unshift({
-        id:gImgs.length,
+        id: gImgs.length,
         url: `${img}`
     })
-    saveToStorage(STORAGE_KEY,gImgs)
+    saveToStorage(STORAGE_KEY, gImgs)
 }
 
-function setNewTxt(txt) {
+function addTxt(txt) {
     clearFocus()
-    gMemeObjs.push({
+    gMemes.push({
+        isTxt: true,
         txt,
         x: 50,
         y: 50,
@@ -144,77 +81,77 @@ function setNewTxt(txt) {
     })
 }
 
-function setGrubbedObj(pos) {
-    const clickedObj = gMemeObjs.find(obj =>
-        (pos.x >= obj.x && pos.x <= obj.x + obj.width &&
-        pos.y <= obj.y && pos.y >= obj.y - obj.height)|| (pos.x >= obj.x && pos.x <= obj.x + obj.width &&
-        pos.y <= obj.y && pos.y >= obj.y + obj.height))
-    gGrubbedObj = clickedObj
+function setGrubbed(pos) {
+    const clickedMeme = gMemes.find(meme =>
+        (pos.x >= meme.x && pos.x <= meme.x + meme.width &&
+            pos.y <= meme.y && pos.y >= meme.y - meme.height) || (pos.x >= meme.x && pos.x <= meme.x + meme.width &&
+                pos.y <= meme.y && pos.y >= meme.y + meme.height))
+    gGrubbed = clickedMeme
     clearFocus()
-    if (clickedObj) clickedObj.isFocused = true
+    if (clickedMeme) clickedMeme.isFocused = true
 }
 
 function setNewFont(font) {
-    const obj = getFocusedObj()
-    if (obj) obj.style.font = font
+    const txt = getFocused()
+    if(txt) txt.style.font = font
     gStyle.font = font
 }
 
 function setNewClr(clr) {
-    const obj = getFocusedObj()
-    if (obj) obj.style.fill = clr
+    const txt = getFocused()
+    if (txt) txt.style.fill = clr
     gStyle.fill = clr
 }
 
-function setNewStrokeClr(clr) {
-    const obj = getFocusedObj()
-    if (obj) obj.style.stroke = clr
-    gStyle.stroke = clr
+function setNewStrokeColor(color) {
+    const txt = getFocused()
+    if (txt) txt.style.stroke = color
+    gStyle.stroke = color
 }
 
 function setSize(sizeAdd) {
-    const obj = getFocusedObj()
-    if(obj.txt){
-        obj.style.fontSize += sizeAdd
-    }else{
-        obj.width+=sizeAdd*10
-        obj.height+=sizeAdd*10
-    } 
+    const meme = getFocused()
+    if (meme.txt) {
+        meme.style.fontSize += sizeAdd
+    } else {
+        meme.width += sizeAdd * 10
+        meme.height += sizeAdd * 10
+    }
 }
 
-function sortImgs(sortBy){
-    if(sortBy==='all'){
-        gCurrImgs=gImgs
+function sortImgs(sortBy) {
+    if (sortBy === 'all') {
+        gCurrImgs = gImgs
         return
-    } 
+    }
     gCurrImgs = []
     gImgs.forEach(img => {
-        if(img.tag === sortBy){
+        if (img.tag === sortBy) {
             gCurrImgs.push(img)
         }
     })
 }
 
 function switchFocus() {
-    if (!gMemeObjs[0]) return
-    const objIdx = gMemeObjs.findIndex(obj => obj.isFocused) + 1
+    if (!gMemes[0]) return
+    const objIdx = gMemes.findIndex(meme => meme.isFocused) + 1
     clearFocus()
-    if (gMemeObjs[objIdx]) gMemeObjs[objIdx].isFocused = true
-    else gMemeObjs[0].isFocused = true
+    if (gMemes[objIdx]) gMemes[objIdx].isFocused = true
+    else gMemes[0].isFocused = true
 }
 
-function deleteObj() {
-    const objIdx = gMemeObjs.findIndex(obj => obj.isFocused)
-    if (objIdx === -1) return
-    gMemeObjs.splice(objIdx, 1)
+function removeMeme() {
+    const idx = gMemes.findIndex(meme => meme.isFocused)
+    if (idx === -1) return
+    gMemes.splice(idx, 1)
 }
 
 function clearGrubbedObj() {
-    gGrubbedObj = undefined
+    gGrubbed = undefined
 }
 
 function clearFocus() {
-    gMemeObjs.forEach(obj => obj.isFocused = false)
+    gMemes.forEach(meme => meme.isFocused = false)
 }
 
 function moveStickers(pos) {
@@ -260,7 +197,69 @@ function loadImageFromInput(ev, onImageReady) {
     }
     reader.readAsDataURL(ev.target.files[0])
 }
+function loadImgs() {
+    var imgs = loadFromStorage(STORAGE_KEY)
+    if (!imgs || imgs === []) {
+        imgs = []
+        for (var i = 1; i <= 25; i++) {
+            imgs.push({
+                id: i,
+                url: `meme-imgs/${i}.jpg`,
+            })
+        }
+        imgs[0].tag = 'tv'
+        imgs[1].tag = 'movies'
+        imgs[2].tag = 'politics'
+        imgs[3].tag = 'animals'
+        imgs[4].tag = 'funny'
+        imgs[5].tag = 'animals'
+        imgs[6].tag = 'movies'
+        imgs[7].tag = 'movies'
+        imgs[8].tag = 'funny'
+        imgs[9].tag = 'funny'
+        imgs[10].tag = 'politics'
+        imgs[11].tag = 'tv'
+        imgs[12].tag = 'funny'
+        imgs[13].tag = 'animals'
+        imgs[14].tag = 'politics'
+        imgs[15].tag = 'tv'
+        imgs[16].tag = 'funny'
+        imgs[17].tag = 'movies'
+        imgs[18].tag = 'movies'
+        imgs[19].tag = 'movies'
+        imgs[20].tag = 'tv'
+        imgs[21].tag = 'tv'
+        imgs[22].tag = 'politics'
+        imgs[23].tag = 'movies'
+        imgs[24].tag = 'animals'
+        saveToStorage(STORAGE_KEY, imgs)
+    }
+    return imgs
+}
 
+function getImgs() {
+    return gCurrImgs
+}
 
+function getStickers() {
+    return gCurrStickers
+}
+
+function getMemes() {
+    return gMemes
+}
+
+function getGrabbed() {
+    return gGrubbed
+}
+
+function getStyle() {
+    return gStyle
+}
+
+function getFocused() {
+    var obj = gMemes.find(obj => obj.isFocused)
+    return obj
+}
 
 
